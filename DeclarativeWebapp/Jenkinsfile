@@ -1,1 +1,34 @@
-
+pipeline {
+    agent any
+ 
+    tools {
+    maven 'Maven 3.8.6'
+    jdk 'JDK-17'
+}
+ 
+ 
+    environment {
+        CATALINA_HOME = 'D:\\DevopsTaining\\All softwares\\apache-tomcat-9.0.104\\apache-tomcat-9.0.104' // Use double backslashes
+    }
+ 
+    stages {
+        stage('Build WAR') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+ 
+ 
+        stage('Deploy WAR Manually') {
+            steps {
+                bat 'copy target\\DeclarativeWebapp.war "%CATALINA_HOME%\\webapps\\"'
+            }
+        }
+ 
+        stage('Start Tomcat') {
+            steps {
+                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
+            }
+        }
+    }
+}
