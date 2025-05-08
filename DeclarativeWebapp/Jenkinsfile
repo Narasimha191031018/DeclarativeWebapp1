@@ -19,22 +19,21 @@ pipeline {
             }
         }
 
-        stage('Deploy WAR') {
+        stage('Deploy WAR Manually') {
             steps {
                 dir('DeclarativeWebapp') {
+                    bat 'echo Current directory: %CD%'
+                    bat 'dir target'
+                    bat 'if exist "%CATALINA_HOME%\\webapps\\" (echo Path exists) else (echo Path does NOT exist)'
                     bat 'copy target\\DeclarativeWebapp.war "%CATALINA_HOME%\\webapps\\"'
                 }
             }
         }
 
-        stage('Restart Tomcat') {
+        stage('Start Tomcat (Background)') {
             steps {
-                bat 'cmd /c "%CATALINA_HOME%\\bin\\shutdown.bat" || echo Tomcat was not running'
-                bat 'ping -n 5 127.0.0.1 > nul'
-                bat 'cmd /c "%CATALINA_HOME%\\bin\\startup.bat"'
-                bat 'ping -n 10 127.0.0.1 > nul'
-                bat 'netstat -ano | findstr :8045'
-                bat 'type "%CATALINA_HOME%\\logs\\catalina.out" || echo catalina.out not found'
+                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
+                bat 'timeout /t 10' // Wait to ensure Tomcat has time to start
             }
         }
     }
