@@ -30,17 +30,11 @@ pipeline {
             }
         }
 
-        stage('Start Tomcat (Foreground)') {
+        stage('Start Tomcat (Background)') {
             steps {
-                bat '"%CATALINA_HOME%\\bin\\catalina.bat" run'
+                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
+                bat 'timeout /t 10' // Wait to ensure Tomcat has time to start
             }
         }
-
-        // Optional stage if you want Jenkins to wait for Tomcat to fully start
-        //stage('Wait for Tomcat') {
-            //steps {
-               // bat 'timeout /t 15'
-           // }
-        //}
     }
 }
