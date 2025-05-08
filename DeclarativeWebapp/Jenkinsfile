@@ -29,11 +29,12 @@ pipeline {
 
         stage('Restart Tomcat') {
             steps {
-                bat '"%CATALINA_HOME%\\bin\\shutdown.bat"'
+                bat 'cmd /c "%CATALINA_HOME%\\bin\\shutdown.bat" || echo Tomcat was not running'
                 bat 'ping -n 5 127.0.0.1 > nul'
-                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
+                bat 'cmd /c "%CATALINA_HOME%\\bin\\startup.bat"'
                 bat 'ping -n 10 127.0.0.1 > nul'
                 bat 'netstat -ano | findstr :8045'
+                bat 'type "%CATALINA_HOME%\\logs\\catalina.out" || echo catalina.out not found'
             }
         }
     }
