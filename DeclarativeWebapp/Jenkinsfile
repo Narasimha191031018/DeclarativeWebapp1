@@ -22,19 +22,24 @@ pipeline {
         stage('Deploy WAR Manually') {
             steps {
                 dir('DeclarativeWebapp') {
-                    // Optional: Debug to verify if the WAR exists and the destination path is valid
                     bat 'echo Current directory: %CD%'
                     bat 'dir target'
                     bat 'if exist "%CATALINA_HOME%\\webapps\\" (echo Path exists) else (echo Path does NOT exist)'
-                    // Actual copy
                     bat 'copy target\\DeclarativeWebapp.war "%CATALINA_HOME%\\webapps\\"'
                 }
             }
         }
 
-        stage('Start Tomcat') {
+        stage('Start Tomcat (Foreground)') {
             steps {
-                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
+                bat '"%CATALINA_HOME%\\bin\\catalina.bat" run'
+            }
+        }
+
+        // Optional stage if you want Jenkins to wait for Tomcat to fully start
+        stage('Wait for Tomcat') {
+            steps {
+                bat 'timeout /t 15'
             }
         }
     }
