@@ -1,32 +1,37 @@
 pipeline {
     agent any
- 
+
     tools {
-    maven 'Maven_3.8.6'
-    jdk 'JDK_17'
-}
- 
- 
-    environment {
-        CATALINA_HOME = 'D:\\DevopsTaining\\All softwares\\apache-tomcat-9.0.104\\apache-tomcat-9.0.104' // Use double backslashes
+        maven 'Maven_3.8.6'
+        jdk 'JDK_17'
     }
- 
+
+    environment {
+        CATALINA_HOME = 'D:\\DevopsTaining\\All softwares\\apache-tomcat-9.0.104\\apache-tomcat-9.0.104'
+    }
+
     stages {
         stage('Build WAR') {
             steps {
-                dir('DeclarativeWebapp'){
+                dir('DeclarativeWebapp') {
                     bat 'mvn clean package'
                 }
             }
         }
- 
- 
+
         stage('Deploy WAR Manually') {
             steps {
-                bat 'copy target\\DeclarativeWebapp.war "%CATALINA_HOME%\\webapps\\"'
+                dir('DeclarativeWebapp') {
+                    // Optional: Debug to verify if the WAR exists and the destination path is valid
+                    bat 'echo Current directory: %CD%'
+                    bat 'dir target'
+                    bat 'if exist "%CATALINA_HOME%\\webapps\\" (echo Path exists) else (echo Path does NOT exist)'
+                    // Actual copy
+                    bat 'copy target\\DeclarativeWebapp.war "%CATALINA_HOME%\\webapps\\"'
+                }
             }
         }
- 
+
         stage('Start Tomcat') {
             steps {
                 bat '"%CATALINA_HOME%\\bin\\startup.bat"'
