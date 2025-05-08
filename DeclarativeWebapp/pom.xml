@@ -19,7 +19,7 @@
   </dependencies>
 
   <build>
-    <finalName>DeclarativeWebappTest</finalName>
+    <finalName>DeclarativeWebapp</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
