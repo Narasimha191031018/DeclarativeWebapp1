@@ -37,10 +37,10 @@ pipeline {
         }
 
         // Optional stage if you want Jenkins to wait for Tomcat to fully start
-        stage('Wait for Tomcat') {
-            steps {
-                bat 'timeout /t 15'
-            }
+        //stage('Wait for Tomcat') {
+            //steps {
+               // bat 'timeout /t 15'
+           // }
         }
     }
 }
