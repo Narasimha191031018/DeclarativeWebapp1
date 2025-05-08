@@ -14,7 +14,9 @@ pipeline {
     stages {
         stage('Build WAR') {
             steps {
-                bat 'mvn clean package'
+                dir('DeclarativeWebapp'){
+                    bat 'mvn clean package'
+                }
             }
         }
  
