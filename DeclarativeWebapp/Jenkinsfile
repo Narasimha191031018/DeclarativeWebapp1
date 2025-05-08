@@ -32,8 +32,9 @@ pipeline {
 
         stage('Start Tomcat (Background)') {
             steps {
-                bat '"%CATALINA_HOME%\\bin\\startup.bat"'
-                bat 'ping -n 11 127.0.0.1 > nul' // Wait to ensure Tomcat has time to start
+                bat 'start "" "%CATALINA_HOME%\\bin\\startup.bat"'
+                bat 'ping -n 21 127.0.0.1 > nul'
+                bat 'netstat -ano | findstr :8045'
             }
         }
     }
