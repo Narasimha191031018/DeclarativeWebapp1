@@ -8,7 +8,7 @@ pipeline {
  
  
     environment {
-        CATALINA_HOME = 'D:\\DevopsTaining\\All softwares\\apache-tomcat-9.0.104\\apache-tomcat-9.0.104' // Use double backslashes
+        CATALINA_HOME = 'D:\\DevopsTraining\\All softwares\\apache-tomcat-9.0.104\\apache-tomcat-9.0.104' // Use double backslashes
     }
  
     stages {
