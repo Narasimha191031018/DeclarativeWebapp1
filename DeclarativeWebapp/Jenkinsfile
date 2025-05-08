@@ -33,7 +33,7 @@ pipeline {
         stage('Start Tomcat (Background)') {
             steps {
                 bat '"%CATALINA_HOME%\\bin\\startup.bat"'
-                bat 'timeout /t 10' // Wait to ensure Tomcat has time to start
+                bat 'ping -n 11 127.0.0.1 > nul' // Wait to ensure Tomcat has time to start
             }
         }
     }
