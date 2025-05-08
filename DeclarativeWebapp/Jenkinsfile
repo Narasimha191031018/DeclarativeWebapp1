@@ -41,6 +41,6 @@ pipeline {
             //steps {
                // bat 'timeout /t 15'
            // }
-        }
+        //}
     }
 }
